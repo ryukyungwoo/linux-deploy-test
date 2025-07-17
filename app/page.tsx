@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 
 type Lang = "kr" | "en" | "jp";
@@ -5,6 +6,10 @@ type Lang = "kr" | "en" | "jp";
 export default function Home() {
   const [lang, setLang] = useState<Lang>("kr");
   const [hello, setHello] = useState<string | undefined>();
+
+  useEffect(() => {
+    hi();
+  }, []);
 
   useEffect(() => {
     getGreet();
@@ -16,6 +21,11 @@ export default function Home() {
     );
     if (!res.ok) throw new Error(res.statusText);
     setHello(await res.text());
+  }
+
+  async function hi() {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}`);
+    if (!res.ok) throw new Error(res.statusText);
   }
 
   return (
